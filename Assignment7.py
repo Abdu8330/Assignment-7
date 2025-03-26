@@ -116,4 +116,4 @@ def update_year_details(selected_year):
     return ""
 
 if __name__ == '__main__':
-    app.run_server(debug=True)
+    app.run(debug=True)
