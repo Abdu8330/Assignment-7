@@ -1,3 +1,4 @@
+# Start command for Render deployment: gunicorn Assignment7:server
 # Dashboard deployed at: https://render.com/your_dashboard_link (Password: yourpassword)
 
 import dash
@@ -73,12 +74,16 @@ fig.update_layout(height=800, width=1000)
 
 # Step 2: Build Dash dashboard
 app = dash.Dash(__name__)
+server = app.server  # Expose the Flask server for gunicorn
 
 app.layout = html.Div([
     html.H1("FIFA World Cup Dashboard"),
     dcc.Graph(id="choropleth", figure=fig),
     html.H2("Countries that have ever won the World Cup"),
-    html.Div(id="winning-countries", children=", ".join(sorted(wins['Country'].tolist()))),
+    html.Div(
+        id="winning-countries",
+        children=", ".join(sorted(wins['Country'].tolist()))
+    ),
     html.H2("Select a Country to view win count"),
     dcc.Dropdown(
         id="country-dropdown",
@@ -101,7 +106,7 @@ app.layout = html.Div([
 )
 def update_country_win_count(selected_country):
     if selected_country:
-        count = wins[wins["Country"] == selected_country]["Wins"].values[0]
+        count = wins.loc[wins["Country"] == selected_country, "Wins"].values[0]
         return f"{selected_country} has won the World Cup {count} times."
     return ""
 
@@ -111,7 +116,7 @@ def update_country_win_count(selected_country):
 )
 def update_year_details(selected_year):
     if selected_year:
-        row = df[df["Year"] == selected_year].iloc[0]
+        row = df.loc[df["Year"] == selected_year].iloc[0]
         return f"In {selected_year}, the winner was {row['Winner']} and the runner-up was {row['Runner-up']}."
     return ""
 
