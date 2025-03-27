@@ -7,8 +7,6 @@ import plotly.express as px
 import pandas as pd
 import numpy as np
 
-server = app.server
-
 # Step 1: Create dataset
 data = [
     {"Year": 1930, "Winner": "Uruguay", "Runner-up": "Argentina"},
