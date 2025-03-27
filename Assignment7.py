@@ -8,7 +8,6 @@ import plotly.express as px
 import pandas as pd
 import numpy as np
 
-# Step 1: Create dataset
 data = [
     {"Year": 1930, "Winner": "Uruguay", "Runner-up": "Argentina"},
     {"Year": 1934, "Winner": "Italy", "Runner-up": "Czechoslovakia"},
@@ -35,11 +34,9 @@ data = [
 ]
 df = pd.DataFrame(data)
 
-# Normalize country names: treat West Germany as Germany
 df['Winner'] = df['Winner'].replace({'West Germany': 'Germany'})
 df['Runner-up'] = df['Runner-up'].replace({'West Germany': 'Germany'})
 
-# Mapping for country to ISO codes for the choropleth map
 iso_mapping = {
     "Uruguay": "URY",
     "Argentina": "ARG",
@@ -56,12 +53,10 @@ iso_mapping = {
     "Croatia": "HRV"
 }
 
-# Compute wins count per country
 wins = df['Winner'].value_counts().reset_index()
 wins.columns = ['Country', 'Wins']
 wins['ISO'] = wins['Country'].map(iso_mapping)
 
-# Create Choropleth map
 fig = px.choropleth(
     wins,
     locations="ISO",
@@ -72,9 +67,8 @@ fig = px.choropleth(
 )
 fig.update_layout(height=800, width=1000)
 
-# Step 2: Build Dash dashboard
 app = dash.Dash(__name__)
-server = app.server  # Expose the Flask server for gunicorn
+server = app.server 
 
 app.layout = html.Div([
     html.H1("FIFA World Cup Dashboard"),
