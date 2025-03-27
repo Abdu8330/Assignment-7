@@ -1,5 +1,4 @@
-# Start command for Render deployment: gunicorn Assignment7:server
-# Dashboard deployed at: https://render.com/your_dashboard_link (Password: yourpassword)
+# https://assignment-7-klzv.onrender.com/
 
 import dash
 from dash import dcc, html
